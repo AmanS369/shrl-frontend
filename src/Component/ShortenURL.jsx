@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
-import QRCode from "react-qr-code";
+// import QRCode from "react-qr-code";
+import QRCode from "qrcode.react";
 
 const ShortenURL = () => {
   const [toggle, setToggle] = useState("link");
@@ -46,11 +47,13 @@ const ShortenURL = () => {
 
     let url = "";
     if (toggle === "link") {
+      // console.log(file);
       url = API_URL + "newShort";
       try {
         const response = await axios.post(
           url,
-          { url: file },
+
+          { bodyURL: file },
           {
             headers: {
               "Content-Type": "application/json",
@@ -215,10 +218,7 @@ const ShortenURL = () => {
             >
               {link}
               <div className="mt-2 bg-blue-300 p-4 rounded-md border border-blue-500 border-4 text-center">
-                <QRCode
-                  value={qrCodeValue}
-                  size={128} // Adjust the size of the QR code
-                />
+                <QRCode value={qrCodeValue} size={128} />
               </div>
             </a>
           </div>
