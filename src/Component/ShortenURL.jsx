@@ -32,6 +32,7 @@ const ShortenURL = () => {
     setFile(null);
     setLink("");
     setText("");
+    setShrl_link("");
     setQRCodeValue("");
   };
 
@@ -175,7 +176,12 @@ const ShortenURL = () => {
         <button
           className={`shorten-btn ${isLoading && "disabled"}`}
           onClick={handleShorten}
-          disabled={isLoading}
+          disabled={
+            isLoading ||
+            (toggle === "link" && !link.trim()) ||
+            (toggle === "file" && !file) ||
+            (toggle === "text" && !text.trim())
+          }
         >
           {isLoading ? "Shortening..." : "Shorten"}
         </button>
