@@ -53,7 +53,7 @@ const Room = () => {
 
   const handleCreateRoom = async () => {
     try {
-      const response = await axios.post(`${API_URL}/create`);
+      const response = await axios.post(`${API_URL}create`);
       setRoomId(response.data.room.roomId);
     } catch (error) {
       console.error("Error creating room:", error);
@@ -62,7 +62,7 @@ const Room = () => {
 
   const handleJoinRoom = async () => {
     try {
-      const response = await axios.get(`${API_URL}/join/${inputRoomId}`);
+      const response = await axios.get(`${API_URL}join/${inputRoomId}`);
       setRoomId(response.data.room.roomId);
       setMessages(response.data.room.messages);
     } catch (error) {
