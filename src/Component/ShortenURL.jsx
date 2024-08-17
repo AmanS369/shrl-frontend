@@ -129,9 +129,9 @@ const ShortenURL = () => {
         {" "}
         <img src="/img.png" alt="Logo" className="w-24 h-auto mb-8 mx-auto" />
       </h1>
-      {/* <Link to="/room" style={{ textDecoration: "underline", color: "blue" }}>
+      <Link to="/room" style={{ textDecoration: "underline", color: "blue" }}>
         <h1> ⭐ Test Out New Room Feature</h1>
-      </Link> */}
+      </Link>
       <div className="tabs">
         <button
           className={`tab ${toggle === "link" ? "active" : ""}`}
