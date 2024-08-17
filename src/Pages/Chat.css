@@ -1,0 +1,143 @@
+/* Main Container for Full-Screen Layout */
+.chat-container {
+  width: 100%;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  background-color: #f0f4f8;
+}
+
+/* Room Selection Styling */
+.room-selection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 15px;
+  padding: 40px;
+}
+
+.room-selection input[type="text"],
+.room-selection button {
+  padding: 12px 20px;
+  border-radius: 30px;
+  border: 1px solid #d1e0eb;
+  font-size: 16px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.room-selection input[type="text"] {
+  width: 300px;
+  background-color: #ffffff;
+}
+
+.room-selection button {
+  background-color: #007bff;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.room-selection button:hover {
+  background-color: #0056b3;
+}
+
+/* Room Header */
+.room-header {
+  text-align: center;
+  margin: 20px 0;
+  font-weight: bold;
+  font-size: 20px;
+  color: #007bff;
+}
+
+/* Chat Room Layout */
+.chat-room {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background-color: #eaf3fb;
+}
+
+.messages-container {
+  flex: 1;
+  padding: 15px;
+  background-color: #ffffff;
+  border-radius: 8px;
+  overflow-y: auto;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.messages-container::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages-container::-webkit-scrollbar-thumb {
+  background-color: #a4c2e0;
+  border-radius: 8px;
+}
+
+/* Chat Bubbles */
+.message {
+  margin-bottom: 12px;
+  padding: 10px 15px;
+  max-width: 70%;
+  border-radius: 20px;
+  background-color: #d9e8ff;
+  font-size: 14px;
+  line-height: 1.6;
+  word-wrap: break-word;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message strong {
+  font-weight: bold;
+  margin-bottom: 3px;
+  color: #007bff;
+}
+
+.message:nth-child(even) {
+  background-color: #c9dffb;
+  align-self: flex-end;
+}
+
+/* Input Section */
+.input-container_room {
+  display: flex;
+  max-width: 100%;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  border-radius: 30px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Full-Width Input Field */
+.input-container_room input[type="text"] {
+  flex: 1;
+  width: 100%;
+  padding: 12px 20px;
+  border: 1px solid #d1e0eb;
+  border-radius: 30px;
+  font-size: 16px;
+  background-color: #f0f4f8;
+  box-shadow: inset 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+.input-container_room button {
+  padding: 12px 20px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.input-container_room button:hover {
+  background-color: #0056b3;
+}

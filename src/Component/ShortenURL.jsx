@@ -4,6 +4,7 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
 import QRCode from "qrcode.react";
 import "./ShortenURL.css"; // Assuming CSS is in App.css
+import { Link } from "react-router-dom";
 
 const ShortenURL = () => {
   const [toggle, setToggle] = useState("link");
@@ -128,6 +129,9 @@ const ShortenURL = () => {
         {" "}
         <img src="/img.png" alt="Logo" className="w-24 h-auto mb-8 mx-auto" />
       </h1>
+      <Link to="/room" style={{ textDecoration: "underline", color: "blue" }}>
+        <h1> ⭐ Test Out New Room Feature</h1>
+      </Link>
       <div className="tabs">
         <button
           className={`tab ${toggle === "link" ? "active" : ""}`}
@@ -169,6 +173,14 @@ const ShortenURL = () => {
           <textarea
             className="url-input"
             placeholder="Enter text here..."
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
+        )}
+        {toggle === "network" && (
+          <textarea
+            className="url-input"
+            placeholder="Enter text to share on the network..."
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
