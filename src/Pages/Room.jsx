@@ -10,7 +10,7 @@ const Room = () => {
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
 
-  const API_URL = process.env.REACT_APP_API_URL;
+  const API_URL = process.env.REACT_APP_API_ROOM_URL;
 
   useEffect(() => {
     const socketInstance = io(API_URL, {
