@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
 import QRCode from "qrcode.react";
-import "./ShortenURL.css"; // Assuming CSS is in App.css
+import "./ShortenURL.css";
 import { Link } from "react-router-dom";
+import { useDropzone } from "react-dropzone";
 
 const ShortenURL = () => {
   const [toggle, setToggle] = useState("link");
@@ -37,6 +38,19 @@ const ShortenURL = () => {
     setQRCodeValue("");
   };
 
+  const onDrop = useCallback((acceptedFiles) => {
+    if (acceptedFiles.length > 0) {
+      setToggle("file");
+      setFile(acceptedFiles[0]);
+    }
+  }, []);
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: "*/*",
+    noClick: true,
+  });
+
   const handleShorten = async () => {
     setIsLoading(true);
     let url = "";
@@ -58,7 +72,7 @@ const ShortenURL = () => {
       } catch (error) {
         console.error("Error shortening URL:", error);
       }
-    } else if (toggle === "file") {
+    } else if (toggle === "file" && file) {
       url = API_URL + "valid_key";
       try {
         const res = await axios.get(url, {
@@ -100,7 +114,7 @@ const ShortenURL = () => {
         const validity = res.data;
         if (validity.valid) {
           const blob = new Blob([text], { type: "text/plain" });
-          const storageRef = ref(storage, `web/${blob.name}`);
+          const storageRef = ref(storage, `web/${Date.now()}_text.txt`);
           await uploadBytes(storageRef, blob);
           const downloadURL = await getDownloadURL(storageRef);
           const response = await axios.post(
@@ -124,9 +138,9 @@ const ShortenURL = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container" {...getRootProps()}>
+      <input {...getInputProps()} />
       <h1 className="title">
-        {" "}
         <img src="/img.png" alt="Logo" className="w-24 h-auto mb-8 mx-auto" />
       </h1>
       <Link to="/room" style={{ textDecoration: "underline", color: "blue" }}>
@@ -153,7 +167,7 @@ const ShortenURL = () => {
         </button>
       </div>
 
-      <div className="input-container">
+      <div className={`input-container ${isDragActive ? "drag-active" : ""}`}>
         {toggle === "link" && (
           <textarea
             className="url-input"
@@ -163,24 +177,31 @@ const ShortenURL = () => {
           />
         )}
         {toggle === "file" && (
-          <input
-            type="file"
-            className="file-input"
-            onChange={(e) => setFile(e.target.files[0])}
-          />
+          <div
+            className="file-drop-zone"
+            onClick={() => document.getElementById("fileInput").click()}
+          >
+            <input
+              id="fileInput"
+              type="file"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                if (e.target.files[0]) {
+                  setFile(e.target.files[0]);
+                }
+              }}
+            />
+            {file ? (
+              <p>File selected: {file.name}</p>
+            ) : (
+              <p>Drag & drop a file here, or click to select a file</p>
+            )}
+          </div>
         )}
         {toggle === "text" && (
           <textarea
             className="url-input"
             placeholder="Enter text here..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-        )}
-        {toggle === "network" && (
-          <textarea
-            className="url-input"
-            placeholder="Enter text to share on the network..."
             value={text}
             onChange={(e) => setText(e.target.value)}
           />
