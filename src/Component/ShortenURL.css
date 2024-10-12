@@ -17,6 +17,7 @@ body {
     color: var(--text-color);
 }
 
+
 .container {
     display: flex;
     flex-direction: column;
