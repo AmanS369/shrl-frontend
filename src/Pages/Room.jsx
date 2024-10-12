@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
+import ReactMarkdown from "react-markdown";
 import "./Chat.css";
 
 const Room = () => {
@@ -14,13 +15,12 @@ const Room = () => {
 
   useEffect(() => {
     const socketInstance = io(API_URL, {
-      transports: ["websocket"], // Ensure WebSocket is used
+      transports: ["websocket"],
       upgrade: false,
     });
 
     setSocket(socketInstance);
 
-    // Cleanup on component unmount
     return () => {
       socketInstance.disconnect();
     };
@@ -38,12 +38,10 @@ const Room = () => {
         setMessages((prevMessages) => [...prevMessages, newMessage]);
       });
 
-      // Handle socket connection errors
       socket.on("connect_error", (err) => {
         console.error("Socket connection error:", err);
       });
 
-      // Attempt to reconnect if the socket disconnects
       socket.on("disconnect", () => {
         console.log("Socket disconnected. Attempting to reconnect...");
         socket.connect();
@@ -99,14 +97,13 @@ const Room = () => {
             {messages.map((msg, index) => (
               <div key={index} className="message">
                 <strong>{msg.sender}: </strong>
-                {msg.text}
+                <ReactMarkdown>{msg.text}</ReactMarkdown>
               </div>
             ))}
           </div>
           <div className="input-container_room">
-            <input
-              type="text"
-              placeholder="Enter message"
+            <textarea
+              placeholder="Enter message (Markdown supported)"
               value={message}
               onChange={(e) => setMessage(e.target.value)}
             />
