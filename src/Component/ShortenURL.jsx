@@ -4,8 +4,8 @@ import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import axios from "axios";
 import QRCode from "qrcode.react";
 import "./ShortenURL.css";
-import { Link } from "react-router-dom";
 import { useDropzone } from "react-dropzone";
+import { Link, MessageSquare } from "lucide-react";
 
 const ShortenURL = () => {
   const [toggle, setToggle] = useState("link");
@@ -140,103 +140,115 @@ const ShortenURL = () => {
   return (
     <div className="container" {...getRootProps()}>
       <input {...getInputProps()} />
-      <h1 className="title">
-        <img src="/img.png" alt="Logo" className="w-24 h-auto mb-8 mx-auto" />
-      </h1>
-      <Link to="/room" style={{ textDecoration: "underline", color: "blue" }}>
-        <h1> ⭐ Test Out New Room Feature</h1>
-      </Link>
-      <div className="tabs">
-        <button
-          className={`tab ${toggle === "link" ? "active" : ""}`}
-          onClick={() => handleLabelClick("link")}
-        >
-          Link
-        </button>
-        <button
-          className={`tab ${toggle === "file" ? "active" : ""}`}
-          onClick={() => handleLabelClick("file")}
-        >
-          File
-        </button>
-        <button
-          className={`tab ${toggle === "text" ? "active" : ""}`}
-          onClick={() => handleLabelClick("text")}
-        >
-          Text
-        </button>
-      </div>
-
-      <div className={`input-container ${isDragActive ? "drag-active" : ""}`}>
-        {toggle === "link" && (
-          <textarea
-            className="url-input"
-            placeholder="Enter URL here..."
-            value={link}
-            onChange={(e) => setLink(e.target.value)}
-          />
-        )}
-        {toggle === "file" && (
-          <div
-            className="file-drop-zone"
-            onClick={() => document.getElementById("fileInput").click()}
-          >
-            <input
-              id="fileInput"
-              type="file"
-              style={{ display: "none" }}
-              onChange={(e) => {
-                if (e.target.files[0]) {
-                  setFile(e.target.files[0]);
-                }
-              }}
-            />
-            {file ? (
-              <p>File selected: {file.name}</p>
-            ) : (
-              <p>Drag & drop a file here, or click to select a file</p>
-            )}
-          </div>
-        )}
-        {toggle === "text" && (
-          <textarea
-            className="url-input"
-            placeholder="Enter text here..."
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-          />
-        )}
-        <button
-          className={`shorten-btn ${isLoading && "disabled"}`}
-          onClick={handleShorten}
-          disabled={
-            isLoading ||
-            (toggle === "link" && !link.trim()) ||
-            (toggle === "file" && !file) ||
-            (toggle === "text" && !text.trim())
-          }
-        >
-          {isLoading ? "Shortening..." : "Shorten"}
-        </button>
-      </div>
-
-      {shrl_link && (
-        <div className="link-container">
-          <label className="shortened-label">Shortened Link:</label>
-          <a
-            href={shrl_link}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="shortened-link"
-          >
-            {shrl_link}
-          </a>
-          <div className="qr-code">
-            <QRCode value={qrCodeValue} size={128} />
-          </div>
+      <header className="header">
+        <div className="logo-title">
+          <img src="/img.png" alt="Logo" className="logo" />
         </div>
-      )}
-      <p className="beta-text">Beta V2 </p>
+        <a href="/room" className="room-link" aria-label="Go to chat rooms">
+          <MessageSquare size={24} />
+          <span>Go to Rooms</span>
+        </a>
+      </header>
+
+      <main className="main-content">
+        <div className="tabs">
+          <button
+            className={`tab ${toggle === "link" ? "active" : ""}`}
+            onClick={() => handleLabelClick("link")}
+          >
+            Link
+          </button>
+          <button
+            className={`tab ${toggle === "file" ? "active" : ""}`}
+            onClick={() => handleLabelClick("file")}
+          >
+            File
+          </button>
+          <button
+            className={`tab ${toggle === "text" ? "active" : ""}`}
+            onClick={() => handleLabelClick("text")}
+          >
+            Text
+          </button>
+        </div>
+
+        <div className={`input-container ${isDragActive ? "drag-active" : ""}`}>
+          {toggle === "link" && (
+            <textarea
+              className="url-input"
+              placeholder="Enter URL here..."
+              value={link}
+              onChange={(e) => setLink(e.target.value)}
+              aria-label="Enter URL to shorten"
+            />
+          )}
+          {toggle === "file" && (
+            <div
+              className="file-drop-zone"
+              onClick={() => document.getElementById("fileInput").click()}
+            >
+              <input
+                id="fileInput"
+                type="file"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  if (e.target.files[0]) {
+                    setFile(e.target.files[0]);
+                  }
+                }}
+              />
+              {file ? (
+                <p>File selected: {file.name}</p>
+              ) : (
+                <p>Drag & drop a file here, or click to select a file</p>
+              )}
+            </div>
+          )}
+          {toggle === "text" && (
+            <textarea
+              className="url-input"
+              placeholder="Enter text here..."
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              aria-label="Enter text to shorten"
+            />
+          )}
+          <button
+            className={`shorten-btn ${isLoading ? "disabled" : ""}`}
+            onClick={handleShorten}
+            disabled={
+              isLoading ||
+              (toggle === "link" && !link.trim()) ||
+              (toggle === "file" && !file) ||
+              (toggle === "text" && !text.trim())
+            }
+          >
+            {isLoading ? "Shortening..." : "Shorten"}
+          </button>
+        </div>
+
+        {shrl_link && (
+          <div className="link-container">
+            <h2 className="shortened-label">Shortened Link:</h2>
+            <a
+              href={shrl_link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="shortened-link"
+            >
+              {shrl_link}
+            </a>
+            <div className="qr-code">
+              <QRCode value={qrCodeValue} size={128} />
+            </div>
+          </div>
+        )}
+      </main>
+
+      <footer className="footer">
+        <p className="beta-text">Release 1.2</p>
+        <Link size={24} />
+      </footer>
     </div>
   );
 };
