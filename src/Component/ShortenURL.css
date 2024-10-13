@@ -1,283 +1,162 @@
-/* ShortenURL.css */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
-
-:root {
-    --primary-color: #3498db;
-    --secondary-color: #2c3e50;
-    --background-color: #f0f4f8;
-    --text-color: #34495e;
-    --border-radius: 12px;
-    --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-}
+/* App.css */
 
 body {
-    margin: 0;
-    font-family: "Poppins", sans-serif;
-    background-color: var(--background-color);
-    color: var(--text-color);
+  margin: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f5f5f5;
 }
 
 .container {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    padding: 2rem;
-}
-
-.header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 3rem;
-}
-
-.logo-title {
-    display: flex;
-    align-items: center;
-}
-
-.logo {
-    width: 80px;
-    height: auto;
-    margin-right: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 0 20px;
 }
 
 .title {
-    font-size: 3rem;
-    color: var(--primary-color);
-    margin: 0;
-    font-weight: 600;
-}
-
-.room-link {
-    display: flex;
-    align-items: center;
-    color: var(--primary-color);
-    text-decoration: none;
-    font-weight: 600;
-    transition: color 0.3s;
-}
-
-.room-link:hover {
-    color: #2980b9;
-}
-
-.room-link span {
-    margin-left: 0.5rem;
-}
-
-.main-content {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 1rem;
 }
 
 .tabs {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 2rem;
-    background-color: white;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
 }
 
 .tab {
-    padding: 1rem 2rem;
-    font-size: 1rem;
-    cursor: pointer;
-    background-color: white;
-    border: none;
-    outline: none;
-    transition:
-        background-color 0.3s,
-        color 0.3s;
-    font-weight: 600;
+  padding: 10px 20px;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: #f5f5f5;
+  border: 1px solid #ddd;
+  border-radius: 5px 5px 0 0;
+  outline: none;
+  transition: background-color 0.3s;
 }
 
-.tab:hover {
-    background-color: #f0f0f0;
+.tab:not(:last-child) {
+  margin-right: 5px;
 }
 
 .tab.active {
-    background-color: var(--primary-color);
-    color: white;
+  background-color: #007bff;
+  color: #fff;
 }
 
 .input-container {
-    width: 100%;
-    max-width: 600px;
-    padding: 2rem;
-    background-color: white;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    transition: all 0.3s ease;
-}
-
-.input-container.drag-active {
-    background-color: #e6f3ff;
-    border: 2px dashed var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 .url-input,
 .file-input {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1rem;
-    margin-bottom: 1rem;
-    border: 2px solid #e0e0e0;
-    border-radius: var(--border-radius);
-    resize: vertical;
-    transition: border-color 0.3s;
-}
-
-.url-input:focus,
-.file-input:focus {
-    border-color: var(--primary-color);
-    outline: none;
-}
-
-.file-drop-zone {
-    width: 100%;
-    height: 150px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px dashed #e0e0e0;
-    border-radius: var(--border-radius);
-    margin-bottom: 1rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
-
-.file-drop-zone:hover {
-    border-color: var(--primary-color);
-    background-color: #f0f8ff;
-}
-
-.file-drop-zone p {
-    text-align: center;
-    color: #666;
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  margin-bottom: 20px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
 }
 
 .shorten-btn {
-    width: 100%;
-    padding: 1rem;
-    font-size: 1rem;
-    color: white;
-    background-color: var(--primary-color);
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition:
-        background-color 0.3s,
-        transform 0.2s;
-    font-weight: 600;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .shorten-btn:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
+  background-color: #0056b3;
 }
 
 .shorten-btn.disabled {
-    opacity: 0.7;
-    cursor: not-allowed;
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .link-container {
-    margin-top: 2rem;
-    text-align: center;
-    background-color: white;
-    padding: 2rem;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  margin-top: 20px;
+  text-align: center;
 }
 
 .shortened-label {
-    font-weight: 600;
-    margin-bottom: 1rem;
-    color: var(--secondary-color);
+  font-weight: bold;
+  margin-bottom: 10px;
+  display: block;
 }
 
 .shortened-link {
-    color: var(--primary-color);
-    word-break: break-word; /* Prevents overflow */
-    font-size: 1.2rem;
-    text-decoration: none;
-    transition: color 0.3s;
-    margin-bottom: 1rem; /* Ensure space between link and QR code */
-}
-
-.shortened-link:hover {
-    color: #2980b9;
+  color: #007bff;
+  word-break: break-all;
 }
 
 .qr-code {
-    margin-top: 1rem;
-    padding: 1rem;
-    background-color: white;
-    border-radius: var(--border-radius);
-    display: inline-block;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    max-width: 100%; /* Ensure it resizes on smaller screens */
-}
-.footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-top: 3rem;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #f0f0f0;
+  border-radius: 5px;
 }
 
 .beta-text {
-    font-size: 0.9rem;
-    color: #666;
+  margin-top: 20px;
+  font-size: 0.8rem;
+  color: #666;
 }
 
-@media (max-width: 768px) {
-    .container {
-        padding: 1rem;
-    }
+/* ... (existing styles remain unchanged) */
 
-    .header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+.input-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 50%;
+  max-width: 500px;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
 
-    .room-link {
-        margin-top: 1rem;
-    }
+.input-container.drag-active {
+  background-color: #e6f3ff;
+  border: 2px dashed #007bff;
+}
 
-    .title {
-        font-size: 2.5rem;
-    }
+.file-drop-zone {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #ddd;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
 
-    .tabs {
-        flex-direction: column;
-    }
+.file-drop-zone:hover {
+  border-color: #007bff;
+  background-color: #f0f8ff;
+}
 
-    .tab {
-        width: 100%;
-    }
-
-    .input-container {
-        padding: 1rem;
-    }
-
-    .link-container {
-        padding: 1rem;
-    }
-
-    .shortened-link {
-        font-size: 1rem;
-    }
-
-    .qr-code {
-        width: 100%; /* Ensure it scales down */
-        max-width: 300px; /* Set a maximum width for the QR code */
-    }
+.file-drop-zone p {
+  text-align: center;
+  color: #666;
 }
