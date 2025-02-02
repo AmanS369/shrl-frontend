@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
+import { useLocation, useNavigate } from "react-router-dom";
 import FileDropHandler from "../Component/FileDropHandler";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
-import { PaperclipIcon } from "lucide-react";
+import { PaperclipIcon, Copy } from "lucide-react";
 import SharedFiles from "../Component/SharedFile";
 import FileUploadProgress from "../Component/FileUploadProgress";
 import Message from "../Component/Message";
@@ -22,6 +23,23 @@ const Room = () => {
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
   const [uploadingFiles, setUploadingFiles] = useState([]);
+
+  const [showCopied, setShowCopied] = useState(false);
+
+  // Get URL parameters and navigation
+  const location = useLocation();
+  const navigate = useNavigate();
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const urlRoomId = params.get("roomId");
+    if (urlRoomId) {
+      setInputRoomId(urlRoomId);
+      // Don't automatically join - wait for name input
+      if (isNameSet && !roomId) {
+        handleJoinRoom(urlRoomId);
+      }
+    }
+  }, [location, isNameSet]);
 
   // Refs
   const fileInputRef = useRef(null);
@@ -223,21 +241,38 @@ const Room = () => {
   const handleCreateRoom = async () => {
     try {
       const response = await axios.post(`${API_URL}create`);
-      setRoomId(response.data.room.roomId);
+      const newRoomId = response.data.room.roomId;
+      setRoomId(newRoomId);
+      // Update URL with room ID
+      navigate(`?roomId=${newRoomId}`, { replace: true });
     } catch (error) {
       console.error("Error creating room:", error);
       alert("Failed to create room. Please try again.");
     }
   };
-
-  const handleJoinRoom = async () => {
-    if (!inputRoomId.trim()) return;
+  const handleJoinRoom = async (roomIdToJoin = inputRoomId) => {
+    if (!roomIdToJoin.trim()) return;
     try {
-      const response = await axios.get(`${API_URL}join/${inputRoomId}`);
+      const response = await axios.get(`${API_URL}join/${roomIdToJoin}`);
       setRoomId(response.data.room.roomId);
+      // Update URL with room ID if it's not already there
+      if (!location.search.includes(roomIdToJoin)) {
+        navigate(`?roomId=${roomIdToJoin}`, { replace: true });
+      }
     } catch (error) {
       console.error("Error joining room:", error);
       alert("Failed to join room. Please check the room ID and try again.");
+    }
+  };
+
+  const handleShareRoom = async () => {
+    const shareUrl = `${window.location.origin}${window.location.pathname}?roomId=${roomId}`;
+    try {
+      await navigator.clipboard.writeText(shareUrl);
+      setShowCopied(true);
+      setTimeout(() => setShowCopied(false), 2000);
+    } catch (err) {
+      alert("Failed to copy URL. Please copy it manually.");
     }
   };
 
@@ -273,6 +308,11 @@ const Room = () => {
           <h2 className="text-2xl font-bold mb-4">
             Enter your name to continue
           </h2>
+          {inputRoomId && (
+            <p className="text-gray-600 mb-4">
+              You're joining room: {inputRoomId}
+            </p>
+          )}
           <form onSubmit={handleNameSubmit} className="space-y-4">
             <input
               type="text"
@@ -294,8 +334,7 @@ const Room = () => {
     );
   }
 
-  // Render room selection
-  if (!roomId) {
+  if (!roomId && !inputRoomId) {
     return (
       <div className="flex items-center justify-center min-h-screen bg-gray-50">
         <div className="p-8 bg-white rounded-lg shadow-md w-full max-w-md space-y-4">
@@ -323,7 +362,7 @@ const Room = () => {
               className="w-full p-2 border rounded"
             />
             <button
-              onClick={handleJoinRoom}
+              onClick={() => handleJoinRoom()}
               className="w-full p-2 bg-green-500 text-white rounded"
             >
               Join Room
@@ -340,7 +379,16 @@ const Room = () => {
       {/* Header */}
       <div className="bg-blue-500 text-white p-4">
         <div className="flex justify-between items-center">
-          <h2 className="text-xl font-bold">Room ID: {roomId}</h2>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold">Room ID: {roomId}</h2>
+            <button
+              onClick={handleShareRoom}
+              className="flex items-center gap-1 bg-blue-600 px-3 py-1 rounded hover:bg-blue-700"
+            >
+              <Copy size={16} />
+              {showCopied ? "Copied!" : "Share"}
+            </button>
+          </div>
           <div className="flex items-center gap-4">
             <span>Chatting as: {userName}</span>
             <button
