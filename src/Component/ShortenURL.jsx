@@ -68,7 +68,7 @@ const ShortenURL = () => {
             },
           },
         );
-        console.log("this is the messgae");
+
         setShrl_link(response.data.message);
         setQRCodeValue(response.data.message);
       } catch (error) {
