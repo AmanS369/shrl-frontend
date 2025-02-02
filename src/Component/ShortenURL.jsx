@@ -16,7 +16,6 @@ const ShortenURL = () => {
   const [qrCodeValue, setQRCodeValue] = useState("");
   const [text, setText] = useState("");
   const API_URL = process.env.REACT_APP_API_URL;
-  axios.defaults.withCredentials = true;
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
