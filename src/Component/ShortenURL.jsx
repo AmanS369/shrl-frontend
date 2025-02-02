@@ -16,6 +16,7 @@ const ShortenURL = () => {
   const [qrCodeValue, setQRCodeValue] = useState("");
   const [text, setText] = useState("");
   const API_URL = process.env.REACT_APP_API_URL;
+  axios.defaults.withCredentials = true;
 
   const firebaseConfig = {
     apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
@@ -53,6 +54,7 @@ const ShortenURL = () => {
 
   const handleShorten = async () => {
     setIsLoading(true);
+
     let url = "";
     if (toggle === "link") {
       url = API_URL + "newShort";
@@ -67,6 +69,7 @@ const ShortenURL = () => {
             },
           },
         );
+        console.log("this is the messgae");
         setShrl_link(response.data.message);
         setQRCodeValue(response.data.message);
       } catch (error) {
@@ -246,8 +249,7 @@ const ShortenURL = () => {
       </main>
 
       <footer className="footer">
-        <p className="beta-text">Release 1.2</p>
-        <Link size={24} />
+        <p className="beta-text">Release 2.0</p>
       </footer>
     </div>
   );
