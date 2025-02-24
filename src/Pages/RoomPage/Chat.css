@@ -127,15 +127,12 @@
 
 /* Update main-content to properly contain the chat */
 .main-content {
-  flex: 1;
+  flex: 1 1;
   display: flex;
   flex-direction: column;
-  min-height: 0; /* Important for flex child scrolling */
-  padding: 2rem;
-  padding-top: 0rem;
   width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
+  padding-right: 2rem;
+  padding-left: 2rem;
 }
 
 /* Responsive Design */
@@ -159,4 +156,39 @@
   .input-container_room {
     padding: 0.75rem;
   }
+}
+
+.messages-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1; /* Expand to fill the available height */
+  overflow: hidden; /* Crucial for child to scroll within */
+  min-height: 40vh;
+}
+
+.messages-scroll-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1rem;
+  background-color: #f9fafb; /* equivalent to bg-gray-50 */
+}
+.messages-content {
+  max-width: 64rem; /* equivalent to max-w-4xl */
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.uploading-files-container {
+  border-top: 1px solid #eaeaea;
+  background-color: white;
+  padding: 1rem;
+}
+
+.attachment-button {
+  padding: 0.5rem;
+}
+
+.attachment-icon {
+  width: 1.25rem;
+  height: 1.25rem;
 }

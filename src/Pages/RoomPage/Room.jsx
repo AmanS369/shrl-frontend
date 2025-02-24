@@ -374,9 +374,9 @@ const Room = () => {
             maxSize={15 * 1024 * 1024}
             disabled={isUploading}
           >
-            <div className="flex flex-col h-[calc(100vh-240px)]">
-              <div className="flex-1 overflow-y-auto p-4 bg-gray-50">
-                <div className="max-w-4xl mx-auto">
+            <div className="messages-wrapper">
+              <div className="messages-scroll-area">
+                <div className="messages-content">
                   {messages.map((msg, index) => (
                     <Message
                       key={index}
@@ -389,7 +389,7 @@ const Room = () => {
               </div>
 
               {uploadingFiles.length > 0 && (
-                <div className="border-t bg-white p-4">
+                <div className="uploading-files-container">
                   {uploadingFiles.map((file) => (
                     <FileUploadProgress
                       key={file.id}
@@ -418,9 +418,9 @@ const Room = () => {
                   <button
                     onClick={() => fileInputRef.current?.click()}
                     disabled={isUploading}
-                    className="p-2"
+                    className="attachment-button"
                   >
-                    <PaperclipIcon className="w-5 h-5" />
+                    <PaperclipIcon className="attachment-icon" />
                   </button>
                   <button onClick={handleSendMessage}>Send</button>
                 </div>
