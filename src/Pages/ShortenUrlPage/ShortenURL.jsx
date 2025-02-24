@@ -1,11 +1,12 @@
 import React, { useState, useCallback } from "react";
 import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+
 import axios from "axios";
 import QRCode from "qrcode.react";
-import "./ShortenURL.css";
+import "../../App.css";
 import { useDropzone } from "react-dropzone";
-import { Link, MessageSquare } from "lucide-react";
+import { Copy, Check, MessageSquare } from "lucide-react";
 
 const ShortenURL = () => {
   const [toggle, setToggle] = useState("link");
@@ -15,6 +16,7 @@ const ShortenURL = () => {
   const [shrl_link, setShrl_link] = useState("");
   const [qrCodeValue, setQRCodeValue] = useState("");
   const [text, setText] = useState("");
+  const [copied, setCopied] = useState(false);
   const API_URL = process.env.REACT_APP_API_URL;
 
   const firebaseConfig = {
@@ -50,7 +52,15 @@ const ShortenURL = () => {
     accept: "*/*",
     noClick: true,
   });
-
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(shrl_link);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      console.error("Failed to copy:", err);
+    }
+  };
   const handleShorten = async () => {
     setIsLoading(true);
 
@@ -230,18 +240,34 @@ const ShortenURL = () => {
         </div>
 
         {shrl_link && (
-          <div className="link-container">
-            <h2 className="shortened-label">Shortened Link:</h2>
-            <a
-              href={shrl_link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="shortened-link"
-            >
-              {shrl_link}
-            </a>
-            <div className="qr-code">
-              <QRCode value={qrCodeValue} size={128} />
+          <div className="result-container">
+            <div className="result-content">
+              <div className="link-section">
+                <h2 className="shortened-label">Shortened Link</h2>
+                <div className="link-copy-wrapper">
+                  <a
+                    href={shrl_link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="shortened-link"
+                  >
+                    {shrl_link}
+                  </a>
+                  <button
+                    className={`copy-button ${copied ? "copied" : ""}`}
+                    onClick={handleCopy}
+                    aria-label="Copy to clipboard"
+                  >
+                    {copied ? <Check size={20} /> : <Copy size={20} />}
+                  </button>
+                </div>
+              </div>
+              <div className="qr-section">
+                <h2 className="qr-label">Scan QR Code</h2>
+                <div className="qr-code">
+                  <QRCode value={qrCodeValue} size={128} />
+                </div>
+              </div>
             </div>
           </div>
         )}

@@ -1,0 +1,162 @@
+/* Chat.css */
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  /* --background-color: #f0f4f8; */
+  --text-color: #34495e;
+  --border-radius: 12px;
+  --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+}
+
+.chat-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.room-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  /* background-color: white; */
+  border-bottom: 1px solid #eaeaea;
+}
+
+.room-header h2 {
+  color: var(--secondary-color);
+  font-size: 1.2rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.room-header button {
+  color: white;
+  transition: all 0.3s ease;
+}
+
+.room-header button:hover {
+  transform: translateY(-2px);
+}
+
+.chat-room {
+  flex: 1;
+  min-height: 0; /* Important for flex child scrolling */
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  margin: 0; /* Remove margins to maximize space */
+}
+
+.messages-container {
+  flex: 1;
+  min-height: 200px; /* Minimum height when empty */
+  padding: 1.5rem;
+  overflow-y: auto;
+  background-color: #ffffff;
+}
+
+.message {
+  max-width: 70%;
+  margin-bottom: 1rem;
+}
+
+.shared-files-container {
+  padding: 1rem;
+  background-color: white;
+  border-top: 1px solid #eaeaea;
+}
+
+.input-container_room {
+  padding: 1.5rem;
+  background-color: white;
+  border-top: 1px solid #eaeaea;
+  width: 100%;
+}
+
+.input-container_room textarea {
+  width: 100%;
+  min-height: 50px; /* Increased from 40px */
+  padding: 0.75rem 1rem;
+  margin-right: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  font-size: 0.95rem;
+  resize: none;
+}
+
+/* Add flex container for the input area */
+.input-area {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+.input-container_room textarea:focus {
+  outline: none;
+  border-color: var(--primary-color);
+}
+
+.input-container_room button {
+  background-color: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: var(--border-radius);
+  padding: 0.75rem 1.25rem;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.input-container_room button:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.upload-progress-container {
+  padding: 1rem;
+  background-color: white;
+  border-top: 1px solid #eaeaea;
+}
+
+/* Update main-content to properly contain the chat */
+.main-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0; /* Important for flex child scrolling */
+  padding: 2rem;
+  padding-top: 0rem;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-content {
+    padding: 1rem;
+  }
+
+  .chat-room {
+    margin: 0;
+  }
+
+  .room-header {
+    padding: 0.75rem;
+  }
+
+  .messages-container {
+    padding: 1rem;
+  }
+
+  .input-container_room {
+    padding: 0.75rem;
+  }
+}

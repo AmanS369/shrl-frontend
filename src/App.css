@@ -1,38 +1,404 @@
-/* .App {
-  text-align: center;
+/* ShortenURL.css */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap");
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --background-color: #f0f4f8;
+  --text-color: #34495e;
+  --border-radius: 12px;
+  --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
+/* First, let's create the graph background for the entire page */
+body {
+  background-color: #f0f2f5;
+  background-image: linear-gradient(
+      rgba(52, 152, 219, 0.05) 1px,
+      transparent 1px
+    ),
+    linear-gradient(90deg, rgba(52, 152, 219, 0.05) 1px, transparent 1px),
+    linear-gradient(rgba(52, 152, 219, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(52, 152, 219, 0.03) 1px, transparent 1px);
+  background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+  background-position: -1px -1px, -1px -1px, -1px -1px, -1px -1px;
   min-height: 100vh;
+  padding: 2rem 1rem;
+}
+
+/* Now update your container with a modern box style */
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+  min-height: calc(100vh - 4rem); /* Adjust for body padding */
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  /* Modern box styling */
+  background: white;
+  border-radius: 24px;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1),
+    0 2px 4px -1px rgba(0, 0, 0, 0.06), 0 20px 25px -5px rgba(0, 0, 0, 0.05);
+}
+
+/* Add a subtle hover effect */
+.container:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
+    0 4px 6px -2px rgba(0, 0, 0, 0.05), 0 25px 30px -5px rgba(0, 0, 0, 0.05);
+  transition: box-shadow 0.3s ease;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 3rem;
+}
+
+.logo-title {
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  width: 80px;
+  height: auto;
+  margin-right: 1rem;
+}
+
+.title {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin: 0;
+  font-weight: 600;
+}
+
+.room-link {
+  display: flex;
+  align-items: center;
+  color: var(--primary-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.3s;
+}
+
+.room-link:hover {
+  color: #2980b9;
+}
+
+.room-link span {
+  margin-left: 0.5rem;
+}
+
+.main-content {
+  flex: 1;
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.tabs {
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
+  margin-bottom: 2rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  box-shadow: var(--box-shadow);
+}
+
+.tab {
+  padding: 1rem 2rem;
+  font-size: 1rem;
+  cursor: pointer;
+  background-color: white;
+  border: none;
+  outline: none;
+  transition: background-color 0.3s, color 0.3s;
+  font-weight: 600;
+}
+
+.tab:hover {
+  background-color: #f0f0f0;
+}
+
+.tab.active {
+  background-color: var(--primary-color);
   color: white;
 }
 
-.App-link {
-  color: #61dafb;
+/*  */
+/* Update input container */
+.input-container {
+  width: 100%;
+  max-width: 800px; /* Matched with result container */
+  padding: 1.5rem;
+  margin: 0 auto; /* Center the container */
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  transition: all 0.3s ease;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
+.input-container.drag-active {
+  background-color: #e6f3ff;
+  border: 2px dashed var(--primary-color);
+}
+
+.url-input,
+.file-input {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  margin-bottom: 1rem;
+  border: 2px solid #e0e0e0;
+  border-radius: var(--border-radius);
+  resize: vertical;
+  transition: border-color 0.3s;
+}
+
+.url-input:focus,
+.file-input:focus {
+  border-color: var(--primary-color);
+  outline: none;
+}
+
+.file-drop-zone {
+  width: 100%;
+  height: 150px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px dashed #e0e0e0;
+  border-radius: var(--border-radius);
+  margin-bottom: 1rem;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.file-drop-zone:hover {
+  border-color: var(--primary-color);
+  background-color: #f0f8ff;
+}
+
+.file-drop-zone p {
+  text-align: center;
+  color: #666;
+}
+
+.shorten-btn {
+  width: 100%;
+  padding: 1rem;
+  font-size: 1rem;
+  color: white;
+  background-color: var(--primary-color);
+  border: none;
+  border-radius: var(--border-radius);
+  cursor: pointer;
+  transition: background-color 0.3s, transform 0.2s;
+  font-weight: 600;
+}
+
+.shorten-btn:hover {
+  background-color: #2980b9;
+  transform: translateY(-2px);
+}
+
+.shorten-btn.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.link-container {
+  margin-top: 2rem;
+  text-align: center;
+  background-color: white;
+  padding: 2rem;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.shortened-label {
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: var(--secondary-color);
+}
+
+.shortened-link {
+  color: var(--primary-color);
+  word-break: break-word;
+  font-size: 1.2rem;
+  text-decoration: none;
+  transition: color 0.3s;
+  margin-bottom: 1rem;
+}
+
+.shortened-link:hover {
+  color: #2980b9;
+}
+
+.qr-code {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  display: inline-block;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  max-width: 100%;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 3rem;
+}
+
+.beta-text {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+/* Add these new styles */
+.result-container {
+  margin-top: 2rem;
+  width: 100%;
+  max-width: 800px;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: var(--box-shadow);
+  overflow: hidden;
+  padding: 2rem;
+}
+.result-content {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 2rem;
+  align-items: start;
+}
+
+.link-section {
+  flex: 1;
+  min-width: 0;
+}
+
+.qr-section {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 2rem;
+  border-left: 2px solid #eaeaea;
+}
+
+.link-copy-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1rem;
+  background-color: #f8f9fa;
+  padding: 1rem;
+  border-radius: var(--border-radius);
+  border: 1px solid #eaeaea;
+}
+.shortened-link {
+  flex: 1;
+  font-size: 1rem;
+  word-break: break-all;
+  color: var(--primary-color);
+  text-decoration: none;
+  padding: 0.5rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  border: 1px solid #eaeaea;
+}
+
+.shortened-label,
+.qr-label {
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: var(--secondary-color);
+  margin-bottom: 1rem;
+}
+
+.qr-code {
+  padding: 1.5rem;
+  background-color: white;
+  border-radius: var(--border-radius);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border: 1px solid #eaeaea;
+}
+
+.copy-button {
+  background: var(--primary-color);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 0.5rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.copy-button.copied {
+  background-color: #2ecc71;
+}
+
+.copy-button:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.shortened-label,
+.qr-label {
+  font-size: 1.1rem;
+  color: var(--secondary-color);
+  margin-bottom: 0.5rem;
+}
+
+@media (max-width: 768px) {
+  .result-container {
+    padding: 1.5rem;
+    margin: 1rem;
   }
-  to {
-    transform: rotate(360deg);
+
+  .result-content {
+    grid-template-columns: 1fr;
+    gap: 2rem;
   }
-} */
+
+  .qr-section {
+    padding-left: 0;
+    padding-top: 2rem;
+    border-left: none;
+    border-top: 2px solid #eaeaea;
+  }
+
+  .link-copy-wrapper {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .shortened-link {
+    text-align: center;
+    padding: 0.75rem;
+  }
+
+  .copy-button {
+    width: 100%;
+    padding: 0.75rem;
+  }
+
+  .qr-code {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+}

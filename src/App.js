@@ -2,9 +2,10 @@
 
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import HomePage from "./Pages/HomePage";
-import ShortenURL from "./Component/ShortenURL";
-import Room from "./Pages/Room";
+
+import Room from "./Pages/RoomPage/Room";
+import ShortenURL from "./Pages/ShortenUrlPage/ShortenURL";
+// import { setBackgroundImage } from "./config/unsplashConfig";
 
 const App = () => {
   return (
