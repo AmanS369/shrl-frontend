@@ -7,6 +7,8 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.6.8",
+    "baseline-browser-mapping": "^2.9.19",
+    "caniuse-lite": "^1.0.30001769",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "firebase": "^10.11.0",
