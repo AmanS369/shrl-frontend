@@ -1,5 +1,5 @@
 import "../../App.css";
-import React, { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import { io } from "socket.io-client";
 import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { initializeApp } from "firebase/app";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import SharedFiles from "../../Component/Rooms/SharedFile";
 
-import { Copy, FileText, PaperclipIcon } from "lucide-react";
+import { Copy, PaperclipIcon } from "lucide-react";
 import FileUploadProgress from "../../Component/Rooms/FileUploadProgress";
 import Message from "../../Component/Rooms/Message";
 import {
@@ -34,6 +34,7 @@ const Room = () => {
   const [message, setMessage] = useState("");
   const [messages, setMessages] = useState([]);
   const [socket, setSocket] = useState(null);
+  // eslint-disable-next-line no-unused-vars
   const [userName, setUserName] = useState(() => {
     const savedName = localStorage.getItem("chatUserName");
     if (savedName) return savedName;
@@ -41,6 +42,7 @@ const Room = () => {
     localStorage.setItem("chatUserName", newName);
     return newName;
   });
+  // eslint-disable-next-line no-unused-vars
   const [isNameSet, setIsNameSet] = useState(false);
   const [files, setFiles] = useState([]);
   const [isUploading, setIsUploading] = useState(false);
@@ -126,57 +128,7 @@ const Room = () => {
     return () => socketInstance.disconnect();
   }, [API_URL]);
 
-  const handleFileSelect = async (event) => {
-    const file = event.target.files?.[0];
-    if (!file) return;
 
-    // Validate file
-    if (file.size > 15 * 1024 * 1024) {
-      alert("File size must be less than 15MB");
-      return;
-    }
-
-    if (files.length >= 20) {
-      alert("Maximum file limit reached (20 files)");
-      return;
-    }
-
-    try {
-      setIsUploading(true);
-      const fileId = `${roomId}/${Date.now()}_${file.name}`;
-      const storageRef = ref(storage, fileId);
-
-      await uploadBytes(storageRef, file);
-      const fileUrl = await getDownloadURL(storageRef);
-      setUploadingFiles((prev) => [
-        ...prev,
-        {
-          id: fileId,
-          fileName: file.name,
-          progress: 0,
-        },
-      ]);
-
-      // Send file message - no need to manually update files state here
-      // as it will be updated through the socket event
-      socket.emit("sendMessage", {
-        roomId,
-        sender: userName,
-        text: `Shared a file: ${file.name}`,
-        fileInfo: {
-          fileName: file.name,
-          fileUrl,
-        },
-      });
-
-      fileInputRef.current.value = "";
-    } catch (error) {
-      console.error("Error uploading file:", error);
-      alert("Failed to upload file. Please try again.");
-    } finally {
-      setIsUploading(false);
-    }
-  };
   const cancelUpload = (fileId) => {
     setUploadingFiles((prev) => prev.filter((f) => f.id !== fileId));
     // If you want to cancel the actual upload, you'd need to store the uploadTask reference
@@ -270,13 +222,6 @@ const Room = () => {
     }
   };
 
-  const handleNameSubmit = (e) => {
-    e.preventDefault();
-    if (userName.trim()) {
-      localStorage.setItem("chatUserName", userName);
-      setIsNameSet(true);
-    }
-  };
 
   if (!roomId) {
     return (
